@@ -1,0 +1,16 @@
+Given a question, an answer to that question, and the ground truth for that question's answer, you need to check if the given answer matches the ground truth.
+* If the answer is complete and correct, simply reply with True.
+* If the given answer does not match the ground truth or is incomplete, reply with False.
+* Do ** NOT ** respond with any other characters.
+
+
+Question:
+<question>
+
+Answer:
+<answer>
+
+Ground Truth:
+<ground_truth>
+
+Does the answer match the ground truth? (True or False):

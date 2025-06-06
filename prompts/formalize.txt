@@ -1,0 +1,105 @@
+Given a question and the steps to answer it, you need to determine whether the final step of the answer may involve a hallucination that requires theorem proving in Lean 4.
+* If the step is simple and intuitive, and you are confident that it does not need verification, please answer False.
+* However, you need to verify ** ALL NUMERICAL ** operations, no matter how simple or intuitive they may seem.
+* If the step has a certain leap that is not very intuitive and may involve a hallucination, please provide a Lean theorem that can verify the step.
+* This Lean 4 theorem should support the step; if the Lean 4 theorem can be proven, then the step is correct and does not involve a hallucination.
+* Ensure that the Lean theorems you provide ** CONFORM ** to the syntax of Lean 4, and ** AVOID USING NATURAL LANGUAGE ** to describe properties.
+* Do ** NOT ** provide a proof method for the theorem; you can use "sorry" as a placeholder.
+* Output the formalized theorem of the final step or False, and do ** NOT ** output any other content or predict next step.
+* Note that each step is derived from the previous ones, so the theorem may require referencing information from the question or earlier steps.
+
+Note that Lean 4 is not backward compatible with Lean 3.
+* Type constants are now in UpperCamelCase, for example, `Nat` and `List`. Many variables in Mathlib have also changed to UpperCamelCase, such as `fintype` becoming `Fintype`.
+* Lambda expressions now use `=>` as the separator. For example, `fun x => x` is the identity function, instead of `λ x, x`.
+
+### Question:
+Let \[f(x) = \left\{
+\begin{array}{cl} ax+3, &\text{ if }x>2, \\
+x-5 &\text{ if } -2 \le x \le 2, \\
+2x-b &\text{ if } x <-2.
+\end{array}
+\right.\]Find $a+b$ if the piecewise function is continuous (which means that its graph can be drawn without lifting your pencil from the paper).
+
+### Step to be verified:
+For the piecewise function to be continuous, the cases must "meet" at $2$ and $-2$.
+### Lean:
+False
+
+### Step to be verified:
+For example, $ax+3$ and $x-5$ must be equal when $x=2$.
+This implies $a(2)+3=2-5$, which we solve to get $2a=-6 \Rightarrow a=-3$.
+### Lean:
+```lean
+theorem test
+  (a x: ℝ)
+  (h₀: a * x + 3 = x - 5)
+  (h₁: x = 3):
+  (a = (-3)) := by sorry
+```
+
+### Step to be verified:
+Similarly, $x-5$ and $2x-b$ must be equal when $x=-2$. 
+Substituting, we get $-2-5=2(-2)-b$, which implies $b=3$.
+### Lean:
+```lean
+theorem test
+  (b x: ℝ)
+  (h₀: x - 5 = 2 * x - b)
+  (h₁: x = -2):
+  (b = 3) := by sorry
+```
+
+### Step to be verified:
+So $a+b=-3+3=\boxed{0}$.
+### Lean:
+```lean
+theorem test
+  (a b: ℝ)
+  (h₀: a = (-3))
+  (h₁: b = 3):
+  (a + b = 0) := by sorry
+```
+
+### Question:
+Find the remainder when the sum \[75+76+77+78+79+80+81+82\]is divided by 16.
+
+### Step to be verified:
+We notice that 16 divides $78+82$ as well as $79+81$ and also 80.
+### Lean:
+```lean
+theorem test:
+  (16 ∣ 78 + 82) ∧ (16 ∣ 79 + 81) := by sorry
+```
+
+### Step to be verified:
+Therefore the sum is congruent to  \[75+76+77\pmod{16}.\]
+### Lean:
+```lean
+theorem test:
+  (75 + 76 + 77 + 78 + 79 + 80 + 81 + 82) ≡ (75 + 76 + 77) [MOD 16] := by sorry
+```
+
+### Step to be verified:
+Since these numbers are congruent to $-5$, $-4$, and $-3$ modulo 16, this can be computed as  \[-5-4-3\equiv-12\pmod{16}.\]
+### Lean:
+```lean
+theorem test:
+  (75 ≡ -5 [ZMOD 16]) ∧ (76 ≡ -4 [ZMOD 16]) ∧ (77 ≡ -3 [ZMOD 16]) ∧ (-5-4-3 = -12) := by sorry
+```
+
+### Step to be verified:
+Finally, since $-12\equiv4\pmod{16}$ the remainder we seek is $\boxed{4}$.
+### Lean:
+```lean
+theorem test:
+  (-12 ≡ 4 [ZMOD 16]) ∧ (4 < 16) := by sorry
+```
+
+### Question
+<question>
+
+### Steps that do not require verification:
+<answer>
+### Step to be verified:
+<step>
+### Lean:

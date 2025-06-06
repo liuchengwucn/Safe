@@ -1,0 +1,50 @@
+services:
+  deepseek-prover:
+    image: vllm/vllm-openai:v0.8.5.post1
+    runtime: nvidia
+    environment:
+      # Set NVIDIA_VISIBLE_DEVICES to specify the GPU for the prover
+      - NVIDIA_VISIBLE_DEVICES=1
+      - HF_HUB_OFFLINE=1
+    volumes:
+      - ~/.cache/huggingface:/root/.cache/huggingface
+    expose:
+      - "8000"
+    ipc: host
+    command: --model deepseek-ai/DeepSeek-Prover-V1.5-RL
+
+  reasoning-model:
+    image: vllm/vllm-openai:v0.8.5.post1
+    runtime: nvidia
+    environment:
+      # Set NVIDIA_VISIBLE_DEVICES to specify the GPU for the reasoning model
+      - NVIDIA_VISIBLE_DEVICES=2
+      - HF_HUB_OFFLINE=1
+    volumes:
+      - ~/.cache/huggingface:/root/.cache/huggingface
+    expose:
+      - "8000"
+    ipc: host
+    # Uncomment the reasoning model you want to use
+    # command: --model deepseek-ai/deepseek-math-7b-instruct
+    # command: --model meta-llama/Meta-Llama-3-8B-Instruct
+    command: --model meta-llama/Llama-3.1-8B-Instruct
+
+  safe:
+    image: ghcr.io/liuchengwucn/safe:1.0.0
+    runtime: nvidia
+    env_file:
+      - .env   
+    environment:
+      # Set CUDA_VISIBLE_DEVICES to specify the GPU for reward models and LSTM aggregator
+      - CUDA_VISIBLE_DEVICES=0
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/workspace/safe
+      - ~/.cache/huggingface:/root/.cache/huggingface
+    working_dir: /workspace/safe
+    stdin_open: true
+    tty: true
+    entrypoint: /bin/sh -c "ln -sf /workspace/mathlib4 /workspace/safe/ && ln -sf /workspace/copra /workspace/safe/ && tail -f /dev/null"
