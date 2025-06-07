@@ -1,5 +1,5 @@
 import io
-from time import time
+import time
 import zipfile
 import requests
 import shutil
@@ -23,7 +23,6 @@ def download_math():
             )
         except Exception as e:
             time.sleep(5)
-            break
         else:
             print("Done")
             break
@@ -90,4 +89,4 @@ if __name__ == "__main__":
     # download_math()
     # download_gsm8k()
     download_prm800k()
-    download_collegemath()
+    # download_collegemath()

@@ -176,10 +176,9 @@ cython_debug/
 results/*
 !results/.gitkeep
 
+datasets/*
+
 models/*
 !models/.gitkeep
-
-datasets/*
-!datasets/.gitkeep
 
 .vscode
