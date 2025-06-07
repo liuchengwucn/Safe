@@ -2,7 +2,11 @@
 
 **TL;DR**: Formally verifying LLM mathematical reasoning using the Lean 4 formal language!
 
-The official implementation of out paper **Safe** (Safe: Enhancing Mathematical Reasoning in Large Language Models via Retrospective Step-aware Formal Verification) and its associated datasets **FormalStep**. 
+The official implementation of our paper **Safe** (Safe: Enhancing Mathematical Reasoning in Large Language Models via Retrospective Step-aware Formal Verification) and its associated datasets **FormalStep**. 
+
+[Paper](https://www.arxiv.org/abs/2506.04592)
+[Code](https://github.com/liuchengwucn/Safe)
+[Dataset](https://huggingface.co/datasets/liuchengwu/FormalStep)
 
 ## Configuration Guide
 
@@ -105,8 +109,7 @@ docker pull ghcr.io/liuchengwucn/safe:1.0.0
 Mathlib cache will be automatically symlinked to the project directory.
 
 ```bash
-docker compose up
-
+docker compose up -d
 docker compose exec safe bash
 ```
 
